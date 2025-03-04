@@ -25,4 +25,12 @@ Frontend project repository corresponding to the technical test for the fullstac
     npm install react-router-dom
 
 
-# Client Version 0.0.1
+# Client Version 1.0.2
+
+
+# Keys Commits
+
+* NF: new Feature
+* CF: configuration file
+* NC: new configuration
+* UV: update version     

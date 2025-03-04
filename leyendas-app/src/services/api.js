@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api'; // Cambia por la API real
+const API_URL = 'http://localhost:8080/api/leyendas'; // Cambia por la API real
 
 export const getLeyendas = async () => {
     try {
-        const response = await axios.get(API_URL+'/leyendas');
+        const response = await axios.get(API_URL);
         return response.data;
     } catch (error) {
         console.error("Error al obtener las leyendas:", error);

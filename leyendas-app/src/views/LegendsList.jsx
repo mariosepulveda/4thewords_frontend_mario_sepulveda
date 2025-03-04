@@ -6,13 +6,13 @@ const LegendsList = ({ legends, onNewLegend, onEditLegend, onDeleteLegend }) => 
     const navigate = useNavigate();
 
     return (
-        <div className="container mx-auto p-6 bg-white rounded-lg shadow-md">
+        <div className="container mx-auto p-6 bg-[#FFF1DB] rounded-lg shadow-md">
             {/* Botón para agregar nueva leyenda */}
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-gray-700">Lista de Leyendas</h2>
+                <h2 className="text-2xl font-bold text-[#0d5988]">Lista de Leyendas</h2>
                 <button
                     onClick={onNewLegend}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition"
+                    className="bg-[#8fca23] hover:bg-[#7cae1e] text-[102F42] text-sm font-bold py-2 px-4 rounded-lg transition"
                 >
                     Nueva Leyenda
                 </button>
@@ -55,12 +55,12 @@ const LegendsList = ({ legends, onNewLegend, onEditLegend, onDeleteLegend }) => 
                                     <td className="py-2 px-4">{new Date(legend.fecha_creacion).toLocaleDateString()}</td>
                                     <td className="py-2 px-4 flex space-x-2">
                                         <HiPencilAlt
-                                            className="text-green-300 hover:text-green-500 cursor-pointer"
+                                            className="text-[#30b3ee] hover:text-[#2595c7] cursor-pointer"
                                             size={20}
                                             onClick={() => onEditLegend(legend.id)}
                                         />
                                         <HiTrash
-                                            className="text-red-400 hover:text-red-600 cursor-pointer"
+                                            className="text-[#d73756] hover:text-[#c42f4c] cursor-pointer"
                                             size={20}
                                             onClick={() => onDeleteLegend(legend.id)}
                                         />
