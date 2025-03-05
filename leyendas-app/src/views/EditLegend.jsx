@@ -1,76 +1,100 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getLeyendaById, updateLeyenda } from "../services/api";
+import InputField from "../components/InputField";
+import Button from "../components/Button";
 
 const EditLegend = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [legend, setLegend] = useState({
         nombre: "",
-        descripcion: "",
         categoria: "",
+        provincia: "",
+        canton: "",
+        distrito: "",
+        fecha_creacion: "",
+        descripcion: "",
+        imagen: null
     });
 
     useEffect(() => {
         const fetchLegend = async () => {
-            const data = await getLeyendaById(id);
-            setLegend(data);
+            try {
+                const response = await getLeyendaById(id);
+                const leyenda = response;        
+                setLegend({
+                    ...leyenda,
+                    fecha_creacion: leyenda.fecha_creacion ? leyenda.fecha_creacion.split("T")[0] : "", // Extrae solo 'YYYY-MM-DD'
+                });
+                // const data = await getLeyendaById(id);
+                // setLegend(data);
+            } catch (error) {
+                console.error("Error cargando la leyenda:", error);
+            }
         };
         fetchLegend();
     }, [id]);
 
     const handleChange = (e) => {
-        setLegend({ ...legend, [e.target.name]: e.target.value });
+        const { name, value, type, files } = e.target;
+        setLegend((prevData) => ({
+            ...prevData,
+            [name]: type === "file" ? files[0] : value
+        }));
+        // setLegend({ ...legend, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await updateLeyenda(id, legend);
-        navigate("/");
+        try {
+            await updateLeyenda(id, legend);
+            navigate("/");
+        } catch (error) {
+            console.error("Error actualizando la leyenda:", error);
+        }
     };
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h2 className="text-2xl font-bold mb-4 text-center">Editar Leyenda</h2>
+            <div className="bg-white p-6 rounded-lg shadow-lg w-3/4">
+                <h2 className="text-2xl text-[#0d5988] font-bold mb-4 text-center">Editar Leyenda</h2>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
-                        <input
-                            type="text"
-                            name="nombre"
-                            value={legend.nombre}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg"
-                        />
-                    </div>
+                <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
 
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Descripción:</label>
-                        <textarea
-                            name="descripcion"
-                            value={legend.descripcion}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg"
-                        ></textarea>
-                    </div>
+                    <InputField label="Nombre" name="nombre" value={legend.nombre} onChange={handleChange} />
+                    <InputField label="Categoría" name="categoria" value={legend.categoria} onChange={handleChange} />
+                    <InputField label="Provincia" name="provincia" value={legend.provincia} onChange={handleChange} />
+                    <InputField label="Cantón" name="canton" value={legend.canton} onChange={handleChange} />
+                    <InputField label="Distrito" name="distrito" value={legend.distrito} onChange={handleChange} />
+                    <InputField label="Fecha" name="fecha_creacion" type="date" value={legend.fecha_creacion} onChange={handleChange} />
 
-                    <div className="flex justify-between">
-                        <button
-                            type="button"
-                            onClick={() => navigate("/")}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg"
-                        >
+                    <InputField
+                        label="Descripción"
+                        type="textarea"
+                        name="descripcion"
+                        value={legend.descripcion}
+                        onChange={handleChange}
+                        className="md:col-span-2"
+                    />
+
+                    {/* Campo de imagen */}
+                    <InputField
+                        label="Imagen"
+                        type="file"
+                        name="imagen"
+                        onChange={handleChange}
+                        className="md:col-span-2"
+                    />
+
+                    {/* Botones */}
+                    <div className="flex justify-evenly md:col-span-2">
+                        <Button type="submit" variant="primary">
+                            Guardar cambios
+                        </Button>
+                        <Button variant="secondary" onClick={() => navigate("/")}>
                             Cancelar
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-                        >
-                            Guardar Cambios
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>

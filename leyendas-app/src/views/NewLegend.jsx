@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createLeyenda } from "../services/api";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
@@ -13,7 +14,7 @@ const NewLegend = () => {
         canton:"",
         distrito:"",
         descripcion:"",
-        fecha:"",
+        fecha_creacion:"",
         imagen:null
     });
 
@@ -36,23 +37,23 @@ const NewLegend = () => {
         formDataToSend.append("provincia", formData.provincia);
         formDataToSend.append("canton", formData.canton);
         formDataToSend.append("distrito", formData.distrito);
-        formDataToSend.append("fecha", formData.fecha);
+        //formDataToSend.append("fecha_creacion", formData.fecha_creacion);
         formDataToSend.append("descripcion", formData.descripcion);
-        formDataToSend.append("imagen", formData.imagen); // Agregar imagen
+        Object.keys(formData).forEach(key => {
+            if (key === "fecha_creacion") {
+                formDataToSend.append(key, formData[key] ? new Date(formData[key]).toISOString() : new Date().toISOString());
+            }
+        });
 
+        if (formData.imagen) {
+            formDataToSend.append("imagen", formData.imagen);
+          }
+        
         try {
-            // const response = await fetch("http://localhost:8080/api/leyendas", {
-            //     method: "POST",
-            //     body: formDataToSend, // Enviamos FormData
-            // });
-
-            // const result = await response.json();
-            console.log("Respuesta del servidor:", formData);
-
-            // if (response.ok) {
-            //     alert("Imagen subida con éxito");
-            //     navigate("/"); // Redirigir si es necesario
-            // }
+            const result = await createLeyenda(formDataToSend);
+            console.log("Respuesta del servidor:", result);
+            alert("Imagen subida con éxito");
+            navigate("/"); // Redirigir si es necesario
         } catch (error) {
             console.error("Error al subir la imagen:", error);
         }
@@ -110,8 +111,9 @@ const NewLegend = () => {
                     {/* Campo Fecha */}
                     <InputField
                         label="Fecha"
-                        name="fecha"
-                        value={formData.fecha}
+                        type="date"
+                        name="fecha_creacion"
+                        value={formData.fecha_creacion}
                         onChange={handleChange}
                     />
 

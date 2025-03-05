@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/leyendas'; // Cambia por la API real
+const API_URL = 'http://localhost:8080/api/leyendas'; // url api para mayor seguridad deberia estar en el .env
 
 export const getLeyendas = async () => {
     try {
@@ -14,8 +14,13 @@ export const getLeyendas = async () => {
 
 // Función para crear una nueva leyenda
 export const createLeyenda = async (leyendaData) => {
+
     try {
-        const response = await axios.post(API_URL, leyendaData);
+        const response = await axios.post(API_URL, leyendaData, {
+            headers: {
+                "Content-Type": "multipart/form-data", // Axios maneja esto automáticamente
+            },
+        });
         return response.data;
     } catch (error) {
         console.error("Error al crear la leyenda:", error);
