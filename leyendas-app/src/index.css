@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
+    'Ubuntu',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+@layer base {
+
+  body {
+    @apply font-sans text-gray-700; /* Open Sans para todo el texto */
+  }
+
+  h1 {
+    @apply text-4xl font-bold text-gray-900 dark:text-white;
+  }
+
+  h2 {
+    @apply font-inika text-3xl font-semibold text-[#0d5988] dark:text-gray-200;
+  }
+
+  h3 {
+    @apply text-2xl font-medium text-gray-700 dark:text-gray-300;
+  }
+
+  p {
+    @apply text-base text-gray-600 dark:text-gray-400;
+  }
+}
