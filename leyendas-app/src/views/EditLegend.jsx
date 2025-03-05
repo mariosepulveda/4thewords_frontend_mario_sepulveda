@@ -57,7 +57,7 @@ const EditLegend = () => {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-3/4">
+            <div className="bg-[#fff1db99] p-6 rounded-lg shadow-lg w-3/4">
                 <h2 className="text-2xl text-[#0d5988] font-bold mb-4 text-center">Editar Leyenda</h2>
 
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>

@@ -28,8 +28,8 @@ function LegendsPage() {
       text: "Esta acción no se puede deshacer",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
+      confirmButtonColor: "#d73756",
+      cancelButtonColor: "#30b3ee",
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar"
   });
@@ -70,23 +70,3 @@ function App() {
 }
 
 export default App;
-
-/**
- * import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ListaLeyendas from "./pages/ListaLeyendas";
-import CrearLeyenda from "./pages/CrearLeyenda";
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<ListaLeyendas />} />
-        <Route path="/crear" element={<CrearLeyenda />} />
-      </Routes>
-    </Router>
-  );
-}
-
-export default App;
-
- */

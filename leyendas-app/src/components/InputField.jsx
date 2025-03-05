@@ -1,4 +1,24 @@
+import React, { useState } from 'react';
+
 const InputField = ({ label, type = "text", name, value, onChange, className = "", ...props }) => {
+
+    const [imagePreview, setImagePreview] = useState(null);
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+        // Call the onChange prop if it exists to handle other operations
+        if (onChange) {
+            onChange(event);
+        }
+    };
+
     return (
         <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">{label}:</label>
@@ -11,13 +31,20 @@ const InputField = ({ label, type = "text", name, value, onChange, className = "
                     {...props}
                 />
             ) : type === "file" ? (
-                <input
-                    type="file"
-                    name={name}
-                    onChange={onChange} //no recible value en file inputs
-                    className={`w-full px-3 py-2 border rounded-lg ${className}`}
-                    {...props}
-                />
+                    <>
+                        <input
+                            type="file"
+                            name={name}
+                            onChange={handleImageChange} //no recible value en file inputs
+                            className={`w-full px-3 py-2 bg-white border rounded-lg ${className}`}
+                            {...props}
+                        />
+                        {imagePreview && (
+                            <div className="mt-2">
+                                <img src={imagePreview} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius:'50%'}} />
+                            </div>
+                        )}
+                    </>
             ) :  (
                 <input
                     type={type}
