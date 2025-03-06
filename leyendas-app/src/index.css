@@ -30,7 +30,7 @@ code {
   }
 
   h2 {
-    @apply font-inika text-3xl font-semibold text-[#0d5988] dark:text-gray-200;
+    @apply font-inika text-4xl font-semibold text-[#0d5988] dark:text-gray-200;
   }
 
   h3 {
@@ -39,5 +39,9 @@ code {
 
   p {
     @apply text-base text-gray-600 dark:text-gray-400;
+  }
+
+  button {
+    @apply font-inika text-base font-light text-[#0d5988];
   }
 }

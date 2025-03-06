@@ -7,6 +7,10 @@ import NewLegend from "./views/NewLegend";
 import EditLegend from "./views/EditLegend";
 
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 function LegendsPage() {
   const [leyendas, setLeyendas] = useState([]);
   const navigate = useNavigate();
@@ -46,7 +50,6 @@ function LegendsPage() {
 };
 
   const handleEditLegend = (legend) => {
-    console.log("Editando:", legend);
     navigate(`/editar-leyenda/${legend}`)
   };
 

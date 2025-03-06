@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getLeyendaById, updateLeyenda } from "../services/api";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditLegend = () => {
     const { id } = useParams();
@@ -15,7 +17,7 @@ const EditLegend = () => {
         distrito: "",
         fecha_creacion: "",
         descripcion: "",
-        imagen: null
+        imagen_url: null
     });
 
     useEffect(() => {
@@ -47,16 +49,34 @@ const EditLegend = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const updatedData = {
+            nombre: legend.nombre,
+            descripcion: legend.descripcion,
+            categoria: legend.categoria,
+            provincia: legend.provincia,
+            canton: legend.canton,
+            distrito: legend.distrito,
+            imagen: legend.imagen_url instanceof File ? legend.imagen_url : null, // Solo enviar si es un archivo
+        };
+    
         try {
-            await updateLeyenda(id, legend);
-            navigate("/");
+            await updateLeyenda(legend.id, updatedData);
+            //toast.success("Leyenda actualizada exitosamente");
+            //alert("Leyenda actualizada correctamente",updatedData);
+
+            navigate("/",{ state: { mensaje: "¡Leyenda actualizada exitósamente!", success:true } })
+            
         } catch (error) {
+            toast.error("Error al actualizar la leyenda");
             console.error("Error actualizando la leyenda:", error);
         }
     };
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+            <ToastContainer />
+
             <div className="bg-[#fff1db99] p-6 rounded-lg shadow-lg w-3/4">
                 <h2 className="text-2xl text-[#0d5988] font-bold mb-4 text-center">Editar Leyenda</h2>
 
@@ -82,7 +102,7 @@ const EditLegend = () => {
                     <InputField
                         label="Imagen"
                         type="file"
-                        name="imagen"
+                        name="imagen_url"
                         onChange={handleChange}
                         className="md:col-span-2"
                     />
@@ -92,7 +112,7 @@ const EditLegend = () => {
                         <Button type="submit" variant="primary">
                             Guardar cambios
                         </Button>
-                        <Button variant="secondary" onClick={() => navigate("/")}>
+                        <Button variant="secondary" onClick={() => navigate("/",{ state: { mensaje: "", success:false } })}>
                             Cancelar
                         </Button>
                     </div>
