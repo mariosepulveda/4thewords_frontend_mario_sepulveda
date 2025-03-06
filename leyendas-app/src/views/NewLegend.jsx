@@ -76,7 +76,7 @@ const NewLegend = ({isEditMode = false}) => {
         }
         
         try {
-            const result = await createLeyenda(formDataToSend);
+            await createLeyenda(formDataToSend);
             navigate("/",{ state: { mensaje: "¡Leyenda almacenada exitósamente!", success:true } });
         } catch (error) {
             console.error("Error al subir la imagen:", error);

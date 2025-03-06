@@ -1,5 +1,5 @@
 import React, { useState,useEffect} from "react";
-import { useNavigate, useLocation  } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { HiPencilAlt, HiTrash } from "react-icons/hi"; // Importamos los íconos de edición y eliminación
 import TableGlobalFilter from "../components/TableGlobalFilter";
 import Button from "../components/Button";
@@ -67,7 +67,6 @@ const LegendsList = ({ legends, onNewLegend, onEditLegend, onDeleteLegend }) => 
                     <FaPlus className="w-4 h-4" />
                 </Button>
                 </button>
-
 
                 <Tooltip id="add-tooltip" place="top" effect="solid">
                     Agregar nueva leyenda
