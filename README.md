@@ -4,28 +4,28 @@ Frontend project repository corresponding to the technical test for the fullstac
 
 # Frontend React js
 
-## Instala el CLI de React js
+## Install React CLI
     npx create-react-app leyendas-app
 
 
-## Ejecutar el servidor de desarrollo
+## Execute the develompment server
     cd leyendas-app
     npm install
     npm start
 
 
-## detalle de dependencias instaladas
-## Instalar axios
+## Installed dependencies detail
+## Install axios
     npm install axios
 
-## Instalar Tailwind Css
+## Install Tailwind Css
     npm install autoprefixer postcss tailwindcss
 
-## Instalar el router de react React-router-dom
+## Install react React-router-dom
     npm install react-router-dom
 
 
-# Client Version 1.1.3
+# Client Version 1.2.5
 
 
 # Keys Commits

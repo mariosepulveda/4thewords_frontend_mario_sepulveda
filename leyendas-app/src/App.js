@@ -46,7 +46,6 @@ function LegendsPage() {
 };
 
   const handleEditLegend = (legend) => {
-    console.log("Editando:", legend);
     navigate(`/editar-leyenda/${legend}`)
   };
 

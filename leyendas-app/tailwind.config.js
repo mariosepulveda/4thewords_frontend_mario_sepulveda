@@ -1,3 +1,5 @@
+import Button from './src/components/Button';
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -23,6 +25,8 @@ export default {
             color: "#0d5988",
             
           },
+          button: {
+          }
         },
       },
     },

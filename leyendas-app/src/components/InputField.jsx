@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 
-const InputField = ({ label, type = "text", name, value, onChange, className = "", ...props }) => {
+const InputField = ({ label, type = "text", name, value, onChange, className = "", required,...props }) => {
 
     const [imagePreview, setImagePreview] = useState(null);
+
+    // Obtener la fecha actual en formato YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
+
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -28,6 +32,7 @@ const InputField = ({ label, type = "text", name, value, onChange, className = "
                     value={value}
                     onChange={onChange}
                     className={`w-full px-3 py-2 border rounded-lg ${className}`}
+                    required={required}
                     {...props}
                 />
             ) : type === "file" ? (
@@ -37,6 +42,7 @@ const InputField = ({ label, type = "text", name, value, onChange, className = "
                             name={name}
                             onChange={handleImageChange} //no recible value en file inputs
                             className={`w-full px-3 py-2 bg-white border rounded-lg ${className}`}
+                            required={required}
                             {...props}
                         />
                         {imagePreview && (
@@ -52,6 +58,8 @@ const InputField = ({ label, type = "text", name, value, onChange, className = "
                     value={value}
                     onChange={onChange}
                     className={`w-full px-3 py-2 border rounded-lg ${className}`}
+                    required={required}
+                    {...(type === "date" ? { max: today } : {})} // Limitar fechas futuras
                     {...props}
                 />
             )}

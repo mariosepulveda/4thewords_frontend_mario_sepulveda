@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { createLeyenda } from "../services/api";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const NewLegend = () => {
+const NewLegend = ({isEditMode = false}) => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -18,6 +20,9 @@ const NewLegend = () => {
         imagen:null
     });
     
+    // Estado para manejar errores
+    const [errors, setErrors] = useState({});
+
 
     const handleChange = (e) => {
         if (e.target.type === "file") {
@@ -25,6 +30,21 @@ const NewLegend = () => {
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
         }
+    };
+
+    // Validación del formulario
+    const validate = () => {
+        let newErrors = {};
+        if (isEditMode) return true; // Si es edición, no validamos campos requeridos
+
+        Object.keys(formData).forEach((key) => {
+            if (!formData[key]) {
+                newErrors[key] = "Este campo es requerido";
+            }
+        });
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
 
@@ -48,15 +68,20 @@ const NewLegend = () => {
 
         if (formData.imagen) {
             formDataToSend.append("imagen", formData.imagen);
-          }
+        }
+
+        if (!validate()) {
+            toast.error("Por favor, completa todos los campos");
+            return;
+        }
         
         try {
-            const result = await createLeyenda(formDataToSend);
-            console.log("Respuesta del servidor:", result);
-            alert("Imagen subida con éxito");
-            navigate("/"); // Redirigir si es necesario
+            await createLeyenda(formDataToSend);
+            navigate("/",{ state: { mensaje: "¡Leyenda almacenada exitósamente!", success:true } });
         } catch (error) {
             console.error("Error al subir la imagen:", error);
+            toast.error("Error al guardar la leyenda");
+            
         }
     };
 
@@ -65,7 +90,8 @@ const NewLegend = () => {
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
             <div className="bg-[#fff1db99] p-6 rounded-lg shadow-lg w-3/4">
                 <h2 className="text-2xl text-[#0d5988] font-bold mb-4 text-center">Nueva Leyenda</h2>
-
+                <ToastContainer />
+                
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
 
                     {/* Campo Nombre */}
@@ -74,6 +100,8 @@ const NewLegend = () => {
                         name="nombre"
                         value={formData.nombre}
                         onChange={handleChange}
+                        error={errors.nombre}
+                        required={!isEditMode}
                     />
 
                     {/* Campo Categoria */}
@@ -82,6 +110,8 @@ const NewLegend = () => {
                         name="categoria"
                         value={formData.categoria}
                         onChange={handleChange}
+                        error={errors.categoria}
+                        required={!isEditMode}
                     />
 
                     {/* Campo Provincia */}
@@ -90,6 +120,8 @@ const NewLegend = () => {
                         name="provincia"
                         value={formData.provincia}
                         onChange={handleChange}
+                        error={errors.provincia}
+                        required={!isEditMode}
                     />
 
                     {/* Campo Cantón */}
@@ -98,6 +130,8 @@ const NewLegend = () => {
                         name="canton"
                         value={formData.canton}
                         onChange={handleChange}
+                        error={errors.canton}
+                        required={!isEditMode}
                     />
 
                     {/* Campo Distrito */}
@@ -106,6 +140,8 @@ const NewLegend = () => {
                         name="distrito"
                         value={formData.distrito}
                         onChange={handleChange}
+                        error={errors.distrito}
+                        required={!isEditMode}
                     />
 
                     
@@ -116,6 +152,8 @@ const NewLegend = () => {
                         name="fecha_creacion"
                         value={formData.fecha_creacion}
                         onChange={handleChange}
+                        error={errors.fecha_creacion}
+                        required={!isEditMode}
                     />
 
                     {/* Campo Descripción (Usa textarea) */}
@@ -125,7 +163,9 @@ const NewLegend = () => {
                         name="descripcion"
                         value={formData.descripcion}
                         onChange={handleChange}
+                        error={errors.descripcion}
                         className="md:col-span-2"
+                        required={!isEditMode}
                     />
                     
                     {/* Campo Imagen (Usa Field) */}
@@ -135,7 +175,9 @@ const NewLegend = () => {
                         name="imagen"
                         value={formData.imagen}
                         onChange={handleChange}
+                        error={errors.imagen}
                         className="md:col-span-2"
+                        required={!isEditMode}
                     />
 
                     {/* Botones (Ocupan las 2 columnas en pantallas grandes) */}
@@ -143,7 +185,7 @@ const NewLegend = () => {
                         <Button type="submit" variant="primary">
                             Guardar
                         </Button>
-                        <Button variant="secondary" onClick={() => navigate("/")}>
+                        <Button variant="secondary" onClick={() => navigate("/",{ state: { mensaje: "", success:false } })}>
                             Cancelar
                         </Button>
 
